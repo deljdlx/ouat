@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="vendor/gitgraph/gitgraph.css"/>
+</head>
+<body>
+    
+
+    <!-- some HTML here (…) -->
+    <canvas id="my-canvas"></canvas>
+
+
+    <script type="text/javascript" src="vendor/gitgraph/gitgraph.min.js"></script>
+
+    <script type="text/javascript" src="../../source/js/Story.js"></script>
+    <script type="text/javascript" src="../../source/js/Senario.js"></script>
+    <script type="text/javascript" src="../../source/js/Step.js"></script>
+
+    <script type="text/javascript" src="../../source/js/Renderer.js"></script>
+
+
+
+
+    <script>
+    
+
+
+    let story = new Story({
+        main: new Scenario({
+            metadata: {
+                name: 'main'
+            },
+            steps: {
+                test_0: new Step('hello world'),
+            }
+        })        
+    });
+
+
+
+
+
+    </script>
+
+
+
+
+    <script>
+
+
+/*
+    let myStory = new Scenario([
+        {
+            metadata: {
+                name: 'main'
+            },
+            steps: {
+                "step-0" : new Step('Hello world 0'),
+                "step-1" : new Step('Hello world 1'),
+                "step-2" : new Step('Hello world 2'),
+                "step-3" : new Scenario([
+                {
+                    metadata: {
+                        name: 'subScenario-0'
+                    },
+                    steps: {
+                        "step-0" : new Step('sb-0'),
+                        "step-1" : new Step('sb-0'),
+                        "step-2" : new Step('sb-0'),
+                    }
+                }, {
+                    metadata: {
+                        name: 'subScenario-1'
+                    },
+                    steps: {
+                        "step-0" : new Step('sb-0'),
+                        "step-1" : new Step('sb-0'),
+                        "step-2" : new Step('sb-0'),
+                    }
+                }
+                ]),
+            }
+        }
+    });
+*/
+
+
+
+        var blackarrowSolution = new GitGraph({
+            elementId: 'my-canvas',
+            orientation: 'vertical',
+            //template: 'blackarrow',
+
+            template: 'metro',
+            //mode: 'compact',
+
+            author: 'Nicolas Carlo <mailto:nicolascarlo.espeon@gmail.com>',
+        });
+
+
+        blackarrowSolution.canvas.addEventListener( "commit:mouseover", function ( event ) {
+            console.log( "You're over a commit.", event.data );
+            this.style.cursor = "pointer";
+        } );
+
+
+
+        var master = blackarrowSolution.branch('master');
+        blackarrowSolution
+            .commit('This is a commit')
+            .commit("And here's another one!")
+            .commit()
+        ;
+
+        var develop = master.branch('develop');
+        develop.commit('My first commit on develop.');
+
+        var feature = develop.branch('feature');
+        feature
+            .commit('This is a mandatory feature')
+            .commit()
+            .commit()
+        ;
+        
+        develop.commit('Meawhile, we commit on develop…');
+        feature.merge(develop, 'Merged into develop');
+        feature.delete();
+
+        develop.commit('Add some commit here…').commit('yolo');
+        develop.merge(master, 'Here we merge!');
+        master.commit().commit();
+
+    </script>
+
+
+
+</body>
+</html>

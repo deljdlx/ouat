@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="vendor/gitgraph/gitgraph.css"/>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    
+
+    <!-- some HTML here (…) -->
+    <canvas id="my-canvas"></canvas>
+
+
+    <script type="text/javascript" src="vendor/gitgraph/gitgraph.min.js"></script>
+
+    <script type="text/javascript" src="../../source/js/Story.js"></script>
+    <script type="text/javascript" src="../../source/js/Senario.js"></script>
+    <script type="text/javascript" src="../../source/js/Step.js"></script>
+
+    <script type="text/javascript" src="../../source/js/Renderer.js"></script>
+
+
+
+
+    <script>
+
+        var scenario = new GitGraph({
+            elementId: 'my-canvas',
+            orientation: 'horizontal',
+            template: 'metro',
+            author: 'Kevin',
+        });
+
+        scenario.canvas.addEventListener( "commit:click", function ( event ) {
+            console.log( "Mouse over commit", event.data );
+            this.style.cursor = "pointer";
+        } );
+
+
+
+
+
+        var scenarioPrincipal = scenario.branch('main-scenario');
+
+        scenarioPrincipal.commit('Intro, le début l\'histoire');
+
+        scenarioPrincipal.commit('Intro la suite...');
+
+        var sousScenario0 = scenarioPrincipal.branch('sous-scenario-0.0.0.0');
+
+        var sousScenario1 = scenarioPrincipal.branch('sous-scenario-0.0.1.0');
+
+
+
+        sousScenario1.commit('Le héro est resté chez lui');
+
+
+        sousScenario0.commit({
+            color: '#F0F',
+            message: 'Le héro est dans la merde',
+            onClick: function(evt) {
+                alert('ici');
+            }
+        });
+
+        //sousScenario0.commit('Le héro est dans la merde');
+
+        scenarioPrincipal.commit('Le héro est parti demander de l\'aide au helper');
+
+        sousScenario1.commit('Le grand méchand soufle sur la maison du héro');
+        var sousScenario10 = sousScenario1.branch('le-mechant-loup-01');
+        var sousScenario11 = sousScenario1.branch('le-mechant-loup-11');
+
+        sousScenario10.commit('Le héro est trop maigre, il s\'envole');
+
+        sousScenario11.commit('le loup est essoufflé');
+        sousScenario11.merge(sousScenario0);
+      
+
+        sousScenario0.commit('Le héro en chie, normal il est dans la merde');
+        var sousScenario010 = sousScenario0.branch('sous-scenario-0.0.0.1');
+        var sousScenario011 = sousScenario0.branch('sous-scenario-0.0.0.2');
+
+        sousScenario010.commit('Le héro s\'enfuit tel la team rocket');
+        sousScenario011.commit('Le héro rentre chez lui, mais ce n\'est pas une fuite')
+
+        sousScenario011.merge(scenarioPrincipal, 'retour au bercail');
+
+        foo();
+
+
+    </script>
+
+
+
+</body>
+</html>

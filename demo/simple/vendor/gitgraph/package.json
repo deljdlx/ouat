@@ -1,0 +1,60 @@
+{
+  "name": "gitgraph.js-monorepo",
+  "private": true,
+  "version": "2.0.0-monorepo",
+  "author": "Nicolas Carlo <nicolascarlo.espeon@gmail.com>",
+  "description": "A JavaScript library to draw pretty git graphs",
+  "contributors": [
+    {
+      "name": "Fabien Bernard",
+      "email": "fabien0102@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicoespeon/gitgraph.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "graph",
+    "javascript"
+  ],
+  "scripts": {
+    "lerna": "lerna",
+    "build": "lerna run build --scope=@gitgraph/{core,react,js,node} --stream",
+    "watch": "lerna run watch --stream",
+    "storybook": "lerna run storybook --stream",
+    "develop": "concurrently npm:watch npm:storybook",
+    "website": "lerna run start --scope=@gitgraph/website --stream",
+    "deploy:website": "lerna run deploy --scope=@gitgraph/website --stream",
+    "lint": "tslint packages/**/src/**/*",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run build",
+    "test": "jest",
+    "test:e2e": "lerna run test:e2e --stream",
+    "test:ci": "CI=true npm run test && npm run test:e2e",
+    "clean": "lerna clean"
+  },
+  "devDependencies": {
+    "@types/jest": "23.1.4",
+    "concurrently": "4.1.0",
+    "husky": "1.1.2",
+    "jest": "23.3.0",
+    "lerna": "3.13.1",
+    "prettier": "1.13.7",
+    "pretty-quick": "1.6.0",
+    "ts-jest": "23.0.0",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.15.0",
+    "typescript": "3.5.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix && pretty-quick --staged"
+    }
+  }
+}
